@@ -265,7 +265,6 @@ namespace AutoResxTranslator
 
       IsBusy(true);
 
-
       await translateResxFilesAsync(txtSourceResx.Text, srcLng, translationOptions,destLanguages,txtOutputDir.Text,ResxWorkingProgress, translateFromKey, checkBoxTranslateOnlyNew.Checked, chkCSVOutput.Checked, txtCSVOutputDir.Text);
 
       IsBusy(false);
@@ -483,15 +482,16 @@ namespace AutoResxTranslator
       var create = chkExcelCreateAbsent.Checked;
 
       IsBusy(true);
-      new Action<string, string, string, string, string, bool>(ImportExcel).BeginInvoke(
+
+      ImportExcel(
         excelFile,
         resxFile,
         sheetName,
         sheetKeyColumn,
         sheetTranslation,
-        create,
-        (x) => IsBusy(false),
-        null);
+        create);
+
+      IsBusy(false);
     }
 
     private void ImportExcel(string excelFile, string resxFile, string sheetName, string sheetKeyColumn,
